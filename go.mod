@@ -1,4 +1,4 @@
-module vencordinstaller
+module equicordinstaller
 
 go 1.20
 

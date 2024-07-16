@@ -9,15 +9,16 @@
 package main
 
 import (
+	"equicordinstaller/buildinfo"
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/fatih/color"
-	"github.com/manifoldco/promptui"
 	"os"
 	"runtime"
 	"strings"
-	"vencordinstaller/buildinfo"
+
+	"github.com/fatih/color"
+	"github.com/manifoldco/promptui"
 )
 
 var discords []any
@@ -47,9 +48,9 @@ func main() {
 	var helpFlag = flag.Bool("help", false, "View usage instructions")
 	var versionFlag = flag.Bool("version", false, "View the program version")
 	var updateSelfFlag = flag.Bool("update-self", false, "Update me to the latest version")
-	var installFlag = flag.Bool("install", false, "Install Vencord")
-	var updateFlag = flag.Bool("repair", false, "Repair Vencord")
-	var uninstallFlag = flag.Bool("uninstall", false, "Uninstall Vencord")
+	var installFlag = flag.Bool("install", false, "Install Equicord")
+	var updateFlag = flag.Bool("repair", false, "Repair Equicord")
+	var uninstallFlag = flag.Bool("uninstall", false, "Uninstall Equicord")
 	var installOpenAsarFlag = flag.Bool("install-openasar", false, "Install OpenAsar")
 	var uninstallOpenAsarFlag = flag.Bool("uninstall-openasar", false, "Uninstall OpenAsar")
 	var locationFlag = flag.String("location", "", "The location of the Discord install to modify")
@@ -62,7 +63,7 @@ func main() {
 	}
 
 	if *versionFlag {
-		fmt.Println("Vencord Installer Cli", buildinfo.InstallerTag, "("+buildinfo.InstallerGitHash+")")
+		fmt.Println("Equicord Installer Cli", buildinfo.InstallerTag, "("+buildinfo.InstallerGitHash+")")
 		fmt.Println("Copyright (C) 2023 Vendicated and Vencord contributors")
 		fmt.Println("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.")
 		return
@@ -102,18 +103,18 @@ func main() {
 			<-SelfUpdateCheckDoneChan
 			if IsSelfOutdated {
 				Log.Warn("Your installer is outdated.")
-				Log.Warn("To update, select the 'Update Vencord Installer' option to update, or run with --update-self")
+				Log.Warn("To update, select the 'Update Equicord Installer' option to update, or run with --update-self")
 			}
 		}()
 
 		choices := []string{
-			"Install Vencord",
-			"Repair Vencord",
-			"Uninstall Vencord",
+			"Install Equicord",
+			"Repair Equicord",
+			"Uninstall Equicord",
 			"Install OpenAsar",
 			"Uninstall OpenAsar",
 			"View Help Menu",
-			"Update Vencord Installer",
+			"Update Equicord Installer",
 			"Quit",
 		}
 		_, choice, err := (&promptui.Select{
@@ -128,7 +129,7 @@ func main() {
 			return
 		case "Quit":
 			return
-		case "Update Vencord Installer":
+		case "Update Equicord Installer":
 			if err := UpdateSelf(); err != nil {
 				Log.Error("Failed to update self:", err)
 				exitFailure()
@@ -146,7 +147,7 @@ func main() {
 	} else if uninstall {
 		errSilent = PromptDiscord("unpatch", *locationFlag, *branchFlag).unpatch()
 	} else if update {
-		Log.Info("Downloading latest Vencord files...")
+		Log.Info("Downloading latest Equicord files...")
 		err := installLatestBuilds()
 		Log.Info("Done!")
 		if err == nil {
@@ -276,5 +277,5 @@ func HandleScuffedInstall() {
 	fmt.Println("Hold On!")
 	fmt.Println("You have a broken Discord Install.")
 	fmt.Println("Please reinstall Discord before proceeding!")
-	fmt.Println("Otherwise, Vencord will likely not work.")
+	fmt.Println("Otherwise, Equicord will likely not work.")
 }

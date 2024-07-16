@@ -10,7 +10,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -37,7 +36,7 @@ var InstalledHash = "None"
 var LatestHash = "Unknown"
 var IsDevInstall bool
 
-func GetGithubRelease(url, fallbackUrl string) (*GithubRelease, error) {
+func GetGithubRelease(url string) (*GithubRelease, error) {
 	Log.Debug("Fetching", url)
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -56,22 +55,6 @@ func GetGithubRelease(url, fallbackUrl string) (*GithubRelease, error) {
 
 	defer res.Body.Close()
 
-	if res.StatusCode >= 300 {
-		isRateLimitedOrBlocked := res.StatusCode == 401 || res.StatusCode == 403 || res.StatusCode == 429
-		triedFallback := url == fallbackUrl
-
-		// GitHub has a very strict 60 req/h rate limit and some (mostly indian) isps block github for some reason.
-		// If that is the case, try our fallback at https://vencord.dev/releases/project
-		if isRateLimitedOrBlocked && !triedFallback {
-			Log.Error(fmt.Sprintf("Failed to fetch %s (status code %d). Trying fallback url %s", url, res.StatusCode, fallbackUrl))
-			return GetGithubRelease(fallbackUrl, fallbackUrl)
-		}
-
-		err = errors.New(res.Status)
-		Log.Error(url, "returned Non-OK status", GithubError)
-		return nil, err
-	}
-
 	var data GithubRelease
 
 	if err = json.NewDecoder(res.Body).Decode(&data); err != nil {
@@ -85,7 +68,7 @@ func GetGithubRelease(url, fallbackUrl string) (*GithubRelease, error) {
 func InitGithubDownloader() {
 	GithubDoneChan = make(chan bool, 1)
 
-	IsDevInstall = os.Getenv("VENCORD_DEV_INSTALL") == "1"
+	IsDevInstall = os.Getenv("EQUICORD_DEV_INSTALL") == "1"
 	Log.Debug("Is Dev Install: ", IsDevInstall)
 	if IsDevInstall {
 		GithubDoneChan <- true
@@ -98,7 +81,7 @@ func InitGithubDownloader() {
 			GithubDoneChan <- GithubError == nil
 		}()
 
-		data, err := GetGithubRelease(ReleaseUrl, ReleaseUrlFallback)
+		data, err := GetGithubRelease(ReleaseUrl)
 		if err != nil {
 			GithubError = err
 			return
@@ -120,11 +103,11 @@ func InitGithubDownloader() {
 	//goland:noinspection GoUnhandledErrorResult
 	defer f.Close()
 
-	Log.Debug("Found existing Vencord Install. Checking for hash...")
+	Log.Debug("Found existing Equicord Install. Checking for hash...")
 	scanner := bufio.NewScanner(f)
 	if scanner.Scan() {
 		line := scanner.Text()
-		if strings.HasPrefix(line, "// Vencord ") {
+		if strings.HasPrefix(line, "// Equicord ") {
 			InstalledHash = line[11:]
 			Log.Debug("Existing hash is", InstalledHash)
 		} else {

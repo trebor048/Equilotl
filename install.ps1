@@ -1,6 +1,6 @@
-$link = "https://github.com/Vencord/Installer/releases/latest/download/VencordInstallerCli.exe"
+$link = "https://github.com/Equicord/Installer/releases/latest/download/EquicordInstallerCli.exe"
 
-$outfile = "$env:TEMP\VencordInstallerCli.exe"
+$outfile = "$env:TEMP\EquicordInstallerCli.exe"
 
 Write-Output "Downloading installer to $outfile"
 
