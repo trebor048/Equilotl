@@ -1,4 +1,4 @@
-module equicordinstaller
+module equilotl
 
 go 1.20
 

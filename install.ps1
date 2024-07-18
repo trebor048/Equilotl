@@ -1,6 +1,6 @@
-$link = "https://github.com/Equicord/Installer/releases/latest/download/EquicordInstallerCli.exe"
+$link = "https://github.com/Equicord/Equilotl/releases/latest/download/EquilotlCli.exe"
 
-$outfile = "$env:TEMP\EquicordInstallerCli.exe"
+$outfile = "$env:TEMP\EquilotlCli.exe"
 
 Write-Output "Downloading installer to $outfile"
 
