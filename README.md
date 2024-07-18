@@ -6,8 +6,15 @@ The Equicord Installer allows you to install [Equicord, the cutest Discord Deskt
 
 ## Usage
 
-Run the package with the extension your platform supports/uses
+Windows
+- [GUI](https://github.com/Equicord/Equilotl/releases/latest/download/Equilotl.exe) 
+- [CLI](https://github.com/Equicord/Equilotl/releases/latest/download/EquilotlCli.exe)
 
+MacOS
+- [GUI](https://github.com/Equicord/Equilotl/releases/latest/download/Equilotl.MacOS.zip)
+
+Linux 
+- [CLI](https://github.com/Equicord/Equilotl/releases/latest/download/EquilotlCli-Linux)
 ## Building from source
 
 ### Prerequisites 
