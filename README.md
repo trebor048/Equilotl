@@ -2,7 +2,7 @@
 
 The Equicord Installer allows you to install [Equicord, the cutest Discord Desktop client mod](https://github.com/Equicord/Equicord)
 
-![image](https://user-images.githubusercontent.com/45497981/226734476-5fb42420-844d-4e27-ae06-4799118e086e.png)
+![image](https://i.imgur.com/oHN41ss.png)
 
 ## Usage
 
