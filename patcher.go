@@ -17,6 +17,7 @@ import (
 )
 
 var BaseDir string
+var BaseDirErr error
 var EquicordAsarPath string
 
 func init() {
@@ -30,8 +31,18 @@ func init() {
 		Log.Debug("Using UserConfig")
 		BaseDir = appdir.New("Equicord").UserConfig()
 	}
-
-	if dir := os.Getenv("EQUICORD_ASAR_FILE"); dir != "" {
+	dir := os.Getenv("EQUICORD_ASAR_FILE")
+	if dir == "" {
+		if !ExistsFile(BaseDir) {
+			BaseDirErr = os.Mkdir(BaseDir, 0755)
+			if BaseDirErr != nil {
+				Log.Error("Failed to create", BaseDir, BaseDirErr)
+			} else {
+				BaseDirErr = FixOwnership(BaseDir)
+			}
+		}
+	}
+	if dir != "" {
 		Log.Debug("Using EQUICORD_ASAR_FILE")
 		EquicordAsarPath = dir
 	} else {
