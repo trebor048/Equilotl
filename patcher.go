@@ -18,7 +18,7 @@ import (
 
 var BaseDir string
 var BaseDirErr error
-var EquicordAsarPath string
+var EquicordDirectory string
 
 func init() {
 	if dir := os.Getenv("EQUICORD_USER_DATA_DIR"); dir != "" {
@@ -31,7 +31,7 @@ func init() {
 		Log.Debug("Using UserConfig")
 		BaseDir = appdir.New("Equicord").UserConfig()
 	}
-	dir := os.Getenv("EQUICORD_ASAR_FILE")
+	dir := os.Getenv("EQUICORD_DIRECTORY")
 	if dir == "" {
 		if !ExistsFile(BaseDir) {
 			BaseDirErr = os.Mkdir(BaseDir, 0755)
@@ -43,10 +43,10 @@ func init() {
 		}
 	}
 	if dir != "" {
-		Log.Debug("Using EQUICORD_ASAR_FILE")
-		EquicordAsarPath = dir
+		Log.Debug("Using EQUICORD_DIRECTORY")
+		EquicordDirectory = dir
 	} else {
-		EquicordAsarPath = path.Join(BaseDir, "equicord.asar")
+		EquicordDirectory = path.Join(BaseDir, "equicord.asar")
 	}
 }
 
@@ -99,7 +99,7 @@ func patchAppAsar(dir string, isSystemElectron bool) (err error) {
 	}
 
 	Log.Debug("Writing custom app.asar to", appAsar)
-	if err := WriteAppAsar(appAsar, EquicordAsarPath); err != nil {
+	if err := WriteAppAsar(appAsar, EquicordDirectory); err != nil {
 		return err
 	}
 
@@ -149,14 +149,14 @@ func (di *DiscordInstall) patch() error {
 			}
 		}
 
-		Log.Debug("This is a flatpak. Trying to grant the Flatpak access to", EquicordAsarPath+"...")
+		Log.Debug("This is a flatpak. Trying to grant the Flatpak access to", EquicordDirectory+"...")
 
 		isSystemFlatpak := strings.HasPrefix(di.path, "/var")
 		var args []string
 		if !isSystemFlatpak {
 			args = append(args, "--user")
 		}
-		args = append(args, "override", name, "--filesystem="+EquicordAsarPath)
+		args = append(args, "override", name, "--filesystem="+EquicordDirectory)
 		fullCmd := "flatpak " + strings.Join(args, " ")
 
 		Log.Debug("Running", fullCmd)
@@ -177,7 +177,7 @@ func (di *DiscordInstall) patch() error {
 			err = cmd.Run()
 		}
 		if err != nil {
-			return errors.New("Failed to grant Discord Flatpak access to " + EquicordAsarPath + ": " + err.Error())
+			return errors.New("Failed to grant Discord Flatpak access to " + EquicordDirectory + ": " + err.Error())
 		}
 	}
 	return nil

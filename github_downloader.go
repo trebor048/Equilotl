@@ -12,6 +12,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	path "path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -93,8 +94,21 @@ func InitGithubDownloader() {
 		Log.Debug("Latest hash is", LatestHash, "Local Install is", Ternary(LatestHash == InstalledHash, "up to date!", "outdated!"))
 	}()
 
+	// either .asar file or directory with main.js file (in DEV)
+	EquicordFile := EquicordDirectory
+
+	stat, err := os.Stat(EquicordFile)
+	if err != nil {
+		return
+	}
+
+	// dev
+	if stat.IsDir() {
+		EquicordFile = path.Join(EquicordFile, "main.js")
+	}
+
 	// Check hash of installed version if exists
-	b, err := os.ReadFile(EquicordAsarPath)
+	b, err := os.ReadFile(EquicordFile)
 	if err != nil {
 		return
 	}
@@ -115,6 +129,11 @@ func InitGithubDownloader() {
 
 func installLatestBuilds() (retErr error) {
 	Log.Debug("Installing latest builds...")
+
+	if IsDevInstall {
+		Log.Debug("Skipping due to dev install")
+		return
+	}
 
 	downloadUrl := ""
 	for _, ass := range ReleaseData.Assets {
@@ -141,15 +160,15 @@ func installLatestBuilds() (retErr error) {
 		retErr = err
 		return
 	}
-	out, err := os.OpenFile(EquicordAsarPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	out, err := os.OpenFile(EquicordDirectory, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
-		Log.Error("Failed to create", EquicordAsarPath+":", err)
+		Log.Error("Failed to create", EquicordDirectory+":", err)
 		retErr = err
 		return
 	}
 	read, err := io.Copy(out, res.Body)
 	if err != nil {
-		Log.Error("Failed to download to", EquicordAsarPath+":", err)
+		Log.Error("Failed to download to", EquicordDirectory+":", err)
 		retErr = err
 		return
 	}
@@ -162,7 +181,7 @@ func installLatestBuilds() (retErr error) {
 		return
 	}
 
-	_ = FixOwnership(EquicordAsarPath)
+	_ = FixOwnership(EquicordDirectory)
 
 	InstalledHash = LatestHash
 	return
