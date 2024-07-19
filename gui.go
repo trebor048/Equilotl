@@ -272,21 +272,6 @@ func makeRadioOnChange(i int) func() {
 	}
 }
 
-func renderFilesDirErr() g.Widget {
-	return g.Layout{
-		g.Dummy(0, 50),
-		g.Style().
-			SetColor(g.StyleColorText, DiscordRed).
-			SetFontSize(30).
-			To(
-				g.Align(g.AlignCenter).To(
-					g.Label("Error: Failed to create: "+FilesDirErr.Error()),
-					g.Label("Resolve this error, then restart me!"),
-				),
-			),
-	}
-}
-
 func Tooltip(label string) g.Widget {
 	return g.Style().
 		SetStyle(g.StyleVarWindowPadding, 10, 8).
@@ -644,13 +629,13 @@ func loop() {
 			g.Dummy(0, 20),
 			g.Style().SetFontSize(20).To(
 				g.Row(
-					g.Label(Ternary(IsDevInstall, "Dev Install: ", "Files will be downloaded to: ")+FilesDir),
+					g.Label(Ternary(IsDevInstall, "Dev Install: ", "Equicord will be downloaded to: ")+EquicordAsarPath),
 					g.Style().
 						SetColor(g.StyleColorButton, DiscordBlue).
 						SetStyle(g.StyleVarFramePadding, 4, 4).
 						To(
 							g.Button("Open Directory").OnClick(func() {
-								g.OpenURL("file://" + FilesDir)
+								g.OpenURL("file://" + path.Dir(EquicordAsarPath))
 							}),
 						),
 				),
@@ -673,11 +658,7 @@ func loop() {
 				},
 			),
 
-			&CondWidget{
-				predicate:  FilesDirErr != nil,
-				ifWidget:   renderFilesDirErr,
-				elseWidget: renderInstaller,
-			},
+			renderInstaller(),
 		)
 
 	g.PopStyle()

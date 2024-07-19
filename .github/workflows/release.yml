@@ -164,7 +164,7 @@ jobs:
           name: Equilotl-windows
           path: |
             Equilotl.exe
-            Equilotl.exe
+            EquilotlCli.exe
 
 
   release:
@@ -199,6 +199,6 @@ jobs:
           prerelease: false
           draft: false
           files: |
-            linux/Equilotl-linux
+            linux/EquilotlCli-linux
             macos/Equilotl.MacOS.zip
             windows/Equilotl*.exe

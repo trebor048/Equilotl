@@ -8,17 +8,16 @@ package main
 
 import (
 	"errors"
-	"github.com/ProtonMail/go-appdir"
 	"os"
 	"os/exec"
 	path "path/filepath"
 	"strings"
+
+	"github.com/ProtonMail/go-appdir"
 )
 
 var BaseDir string
-var FilesDir string
-var FilesDirErr error
-var Patcher string
+var EquicordAsarPath string
 
 func init() {
 	if dir := os.Getenv("EQUICORD_USER_DATA_DIR"); dir != "" {
@@ -31,16 +30,13 @@ func init() {
 		Log.Debug("Using UserConfig")
 		BaseDir = appdir.New("Equicord").UserConfig()
 	}
-	FilesDir = path.Join(BaseDir, "dist")
-	if !ExistsFile(FilesDir) {
-		FilesDirErr = os.MkdirAll(FilesDir, 0755)
-		if FilesDirErr != nil {
-			Log.Error("Failed to create", FilesDir, FilesDirErr)
-		} else {
-			FilesDirErr = FixOwnership(BaseDir)
-		}
+
+	if dir := os.Getenv("EQUICORD_ASAR_FILE"); dir != "" {
+		Log.Debug("Using EQUICORD_ASAR_FILE")
+		EquicordAsarPath = dir
+	} else {
+		EquicordAsarPath = path.Join(BaseDir, "equicord.asar")
 	}
-	Patcher = path.Join(FilesDir, "patcher.js")
 }
 
 type DiscordInstall struct {
@@ -92,7 +88,7 @@ func patchAppAsar(dir string, isSystemElectron bool) (err error) {
 	}
 
 	Log.Debug("Writing custom app.asar to", appAsar)
-	if err := WriteAppAsar(appAsar, Patcher); err != nil {
+	if err := WriteAppAsar(appAsar, EquicordAsarPath); err != nil {
 		return err
 	}
 
@@ -142,14 +138,14 @@ func (di *DiscordInstall) patch() error {
 			}
 		}
 
-		Log.Debug("This is a flatpak. Trying to grant the Flatpak access to", FilesDir+"...")
+		Log.Debug("This is a flatpak. Trying to grant the Flatpak access to", EquicordAsarPath+"...")
 
 		isSystemFlatpak := strings.HasPrefix(di.path, "/var")
 		var args []string
 		if !isSystemFlatpak {
 			args = append(args, "--user")
 		}
-		args = append(args, "override", name, "--filesystem="+FilesDir)
+		args = append(args, "override", name, "--filesystem="+EquicordAsarPath)
 		fullCmd := "flatpak " + strings.Join(args, " ")
 
 		Log.Debug("Running", fullCmd)
@@ -170,7 +166,7 @@ func (di *DiscordInstall) patch() error {
 			err = cmd.Run()
 		}
 		if err != nil {
-			return errors.New("Failed to grant Discord Flatpak access to " + FilesDir + ": " + err.Error())
+			return errors.New("Failed to grant Discord Flatpak access to " + EquicordAsarPath + ": " + err.Error())
 		}
 	}
 	return nil
