@@ -127,6 +127,8 @@ jobs:
 
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
+        with:
+          update: true
 
       - name: Install Windows dependencies
         shell: msys2 {0}
