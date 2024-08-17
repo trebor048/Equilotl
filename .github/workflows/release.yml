@@ -11,14 +11,13 @@ env:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version: 'stable'
-          check-latest: true
+          go-version: "1.23"
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -57,8 +56,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version: 'stable'
-          check-latest: true
+          go-version: "1.23"
 
       - id: go-cache-paths
         run: |
@@ -113,8 +111,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version: 'stable'
-          check-latest: true
+          go-version: "1.23"
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -130,8 +127,6 @@ jobs:
 
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
-        with:
-          update: true
 
       - name: Install Windows dependencies
         shell: msys2 {0}
