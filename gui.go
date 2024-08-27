@@ -11,7 +11,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
-	"equilotl/buildinfo"
+	"vencord/buildinfo"
 	"errors"
 	"image"
 	"image/color"

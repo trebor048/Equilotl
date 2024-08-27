@@ -1,4 +1,4 @@
-module equilotl
+module vencord
 
 go 1.20
 

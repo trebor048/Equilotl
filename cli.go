@@ -9,7 +9,7 @@
 package main
 
 import (
-	"equilotl/buildinfo"
+	"vencord/buildinfo"
 	"errors"
 	"flag"
 	"fmt"

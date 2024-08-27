@@ -7,7 +7,7 @@
 package main
 
 import (
-	"equilotl/buildinfo"
+	"vencord/buildinfo"
 	"image/color"
 )
 
