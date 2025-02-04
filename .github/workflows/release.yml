@@ -169,16 +169,16 @@ jobs:
           PFX_PASSWORD: ${{secrets.PFX_PASSWORD}}
 
       - name: Set up Windows 10 SDK
-        uses: GuillaumeFalourd/setup-windows10-sdk-action@v1
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.4
 
       - name: Digitally sign equilotl executable
         run: |
-          New-Alias "signtool" "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\signtool.exe"
+          New-Alias "signtool" "C:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64\signtool.exe"
           signtool sign /a /t ${{env.TIMESTAMP_SERVER}} Equilotl.exe
 
       - name: Digitally sign equilotl executable
         run: |
-          New-Alias "signtool" "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\signtool.exe"
+          New-Alias "signtool" "C:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64\signtool.exe"
           signtool sign /a /t ${{env.TIMESTAMP_SERVER}} EquilotlCli.exe
 
       - name: Upload artifact
