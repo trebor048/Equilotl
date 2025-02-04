@@ -168,6 +168,9 @@ jobs:
           BASE64_PFX: ${{secrets.BASE64_PFX}}
           PFX_PASSWORD: ${{secrets.PFX_PASSWORD}}
 
+      - name: Set up Windows 10 SDK
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v1
+
       - name: Digitally sign equilotl executable
         run: |
           New-Alias "signtool" "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\signtool.exe"
