@@ -194,17 +194,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v4
+      - name: "Download Linux Artifacts"
+        uses: actions/download-artifact@v4
         with:
           name: Equilotl-linux
           path: linux
 
-      - uses: actions/download-artifact@v4
+      - name: "Download MacOS Artifacts"
+        uses: actions/download-artifact@v4
         with:
           name: Equilotl-macos
           path: macos
 
-      - uses: actions/download-artifact@v4
+      - name: "Download Windows Artifacts"
+        uses: actions/download-artifact@v4
         with:
           name: Equilotl-windows
           path: windows
