@@ -95,7 +95,7 @@ jobs:
         run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -tags "static gui" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl
 
       - name: Build CLI
-        run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -tags "static cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli
+        run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -tags "static cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli-macos
 
       - name: Update executable
         run: |
@@ -110,22 +110,13 @@ jobs:
           cp macos/icon.icns Equilotl.app/Contents/Resources/icon.icns
           zip -r Equilotl.MacOS.zip Equilotl.app
 
-      - name: Generate MacOS CLI bundle
-        run: |
-          mkdir -p EquilotlCli.app/Contents/MacOS
-          mkdir -p EquilotlCli.app/Contents/Resources
-          cp macos/Info.plist EquilotlCli.app/Contents/Info.plist
-          mv EquilotlCli EquilotlCli.app/Contents/MacOS/EquilotlCli
-          cp macos/icon.icns EquilotlCli.app/Contents/Resources/icon.icns
-          zip -r EquilotlCli.MacOS.zip EquilotlCli.app
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Equilotl-macos
           path: |
             Equilotl.MacOS.zip
-            EquilotlCli.MacOS.zip
+            EquilotlCli-macos
 
 
   build-windows:
@@ -231,6 +222,6 @@ jobs:
           files: |
             linux/Equilotl-x11
             linux/EquilotlCli-linux
-            macos/EquilotlCli.MacOS.zip
+            macos/EquilotlCli-macos
             macos/Equilotl.MacOS.zip
             windows/Equilotl*.exe
