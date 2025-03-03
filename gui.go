@@ -186,8 +186,7 @@ func handleErr(di *DiscordInstall, err error, action string) {
 			err = errors.New("Permission denied. Please grant the installer Full Disk Access in the system settings (privacy & security page).\n\nIf that also doesn't work, try running the following command in your terminal:\n" + command)
 		case "linux":
 			command := "sudo chown -R \"$USER:$USER\" " + di.path
-			err = errors.New("Permission denied. Try running the following command in your terminal:\n" + command +
-				"\n\nOr run the installer with sudo privileges.")
+			err = errors.New("Permission denied. Try to run the installer with sudo privileges.\n\nIf that also doesn't work, try running the following command in your terminal:\n" + command)
 		default:
 			err = errors.New("Permission denied. Maybe try running me as Administrator/Root?")
 		}
