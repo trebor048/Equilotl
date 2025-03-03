@@ -95,7 +95,7 @@ jobs:
         run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -tags "static gui" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl
 
       - name: Build CLI
-        run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -tags "static cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli-macos
+        run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -tags "static cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli
 
       - name: Update executable
         run: |
