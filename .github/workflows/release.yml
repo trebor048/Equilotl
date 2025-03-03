@@ -32,21 +32,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
+      - name: Install Linux dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y pkg-config libsdl2-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglx-dev libgl1-mesa-dev libxxf86vm-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
+
       - name: Install Go dependencies
         run: go get -v
+
+      - name: Build X11 Gui
+        run: CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -tags static -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl-x11
+
+      - name: Build Wayland Gui
+        run: CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -tags "static wayland" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl-wayland
 
       - name: Build Cli
         run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -tags "static cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli-linux
 
       - name: Update executable
         run: |
-          chmod +x EquilotlCli-linux
+          chmod +x VencordInstaller-*
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Equilotl-linux
           path: |
+            Equilotl-x11
+            Equilotl-wayland
             EquilotlCli-linux
 
 
@@ -221,6 +234,6 @@ jobs:
           prerelease: false
           draft: false
           files: |
-            linux/EquilotlCli-linux
+            linux/Equilotl*
             macos/Equilotl.MacOS.zip
             windows/Equilotl*.exe
