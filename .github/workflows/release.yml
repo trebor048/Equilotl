@@ -16,9 +16,9 @@ jobs:
 
     steps:
       - name: Install Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: "1.20"
+          go-version: '1.24'
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
       - name: Install Linux dependencies
         run: |
           sudo apt update
-          sudo apt install -y pkg-config libsdl2-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglx-dev libgl1-mesa-dev libxxf86vm-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
+          sudo apt install -y pkg-config libsdl2-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglx-dev libgl1-mesa-dev libxxf86vm-dev libwayland-dev libxkbcommon-dev wayland-protocols libwayland-client-dev extra-cmake-modules
 
       - name: Install Go dependencies
         run: go get -v
@@ -51,7 +51,7 @@ jobs:
 
       - name: Update executable
         run: |
-          chmod +x VencordInstaller-*
+          chmod +x Equilotl-*
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -68,9 +68,9 @@ jobs:
 
     steps:
       - name: Install Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: "1.20"
+          go-version: '1.24'
 
       - id: go-cache-paths
         run: |
@@ -123,9 +123,9 @@ jobs:
 
     steps:
       - name: Install Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: "1.20"
+          go-version: '1.24'
 
       - name: Checkout code
         uses: actions/checkout@v3
