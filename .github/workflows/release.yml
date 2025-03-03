@@ -231,5 +231,6 @@ jobs:
           files: |
             linux/Equilotl-x11
             linux/EquilotlCli-linux
+            EquilotlCli.MacOS.zip
             macos/Equilotl.MacOS.zip
             windows/Equilotl*.exe
