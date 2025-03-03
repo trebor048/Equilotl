@@ -9,6 +9,9 @@ on:
 env:
   FORCE_COLOR: true
   TIMESTAMP_SERVER: http://timestamp.digicert.com/
+  BASE64_PFX: ${{secrets.BASE64_PFX}}
+  PFX_PASSWORD: ${{secrets.PFX_PASSWORD}}
+  GITHUB_TOKEN: ${{ secrets.ETOKEN }}
 
 jobs:
   build-linux:
@@ -173,9 +176,6 @@ jobs:
           $pfxCertFilePath = Join-Path -Path $PSScriptRoot -ChildPath "CodeSigningCertificate.pfx"
           Set-Content -Value $([System.Convert]::FromBase64String($env:BASE64_PFX)) -Path $pfxCertFilePath -AsByteStream
           Import-PfxCertificate -FilePath $pfxCertFilePath -Password $($env:PFX_PASSWORD | ConvertTo-SecureString -AsPlainText -Force) -CertStoreLocation Cert:/CurrentUser/My
-        env:
-          BASE64_PFX: ${{secrets.BASE64_PFX}}
-          PFX_PASSWORD: ${{secrets.PFX_PASSWORD}}
 
       - name: Set up Windows 10 SDK
         uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.4
@@ -222,13 +222,16 @@ jobs:
           path: windows
 
       - name: Create the release
-        uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5 # v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ETOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generate_release_notes: true
+          make_latest: true
           prerelease: false
           draft: false
+          body: |
+            This is release ${{ github.ref_name }} of Equilotl.
           files: |
             linux/Equilotl-x11
             linux/EquilotlCli-linux
