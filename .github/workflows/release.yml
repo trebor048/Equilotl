@@ -43,15 +43,12 @@ jobs:
       - name: Build X11 Gui
         run: CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -tags "static gui" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl-x11
 
-      - name: Build Wayland Gui
-        run: CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -tags "static wayland gui" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl-wayland
-
       - name: Build Cli
         run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -tags "static cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli-linux
 
       - name: Update executable
         run: |
-          chmod +x Equilotl-*
+          chmod +x Equilotl-x11
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -59,7 +56,6 @@ jobs:
           name: Equilotl-linux
           path: |
             Equilotl-x11
-            Equilotl-wayland
             EquilotlCli-linux
 
 
@@ -234,6 +230,7 @@ jobs:
           prerelease: false
           draft: false
           files: |
-            linux/Equilotl*
+            linux/Equilotl-x11
+            linux/EquilotlCli-linux
             macos/Equilotl.MacOS.zip
             windows/Equilotl*.exe
