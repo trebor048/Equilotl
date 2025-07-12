@@ -14,7 +14,7 @@ permissions: write-all
 
 jobs:
   build-linux:
-    runs-on: ubuntu-20.04 # hopefully older glibc for better compatibility on systems like debian bullseye
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Install Go
