@@ -435,7 +435,7 @@ func renderInstaller() g.Widget {
 		g.Style().SetFontSize(20).To(
 			renderErrorCard(
 				DiscordYellow,
-				"**Github** is the only official place to get Equicord. Any other site claiming to be us is malicious.\n"+
+				"**Github** and **equicord.org** are the only official places to get Equicord. Any other site claiming to be us is malicious.\n"+
 					"If you downloaded from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.",
 				90,
 			),

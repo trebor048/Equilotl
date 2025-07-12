@@ -7,7 +7,6 @@
 package main
 
 import (
-	"vencord/buildinfo"
 	"errors"
 	"fmt"
 	"io"
@@ -16,6 +15,7 @@ import (
 	"path"
 	"runtime"
 	"time"
+	"vencord/buildinfo"
 )
 
 var IsSelfOutdated = false
@@ -33,7 +33,7 @@ func init() {
 	go func() {
 		Log.Debug("Checking for Installer Updates...")
 
-		res, err := GetGithubRelease(InstallerReleaseUrl)
+		res, err := GetGithubRelease(InstallerReleaseUrl, InstallerReleaseUrlFallback)
 		if err != nil {
 			Log.Warn("Failed to check for self updates:", err)
 			SelfUpdateCheckDoneChan <- false
