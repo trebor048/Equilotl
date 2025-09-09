@@ -1,4 +1,5 @@
-# Based partially on Alyxia's work, thanks so much!
+# Release builds for Linux, macOS, Windows (GUI + CLI) and publish a GitHub Release.
+# Uses setup-go caching and explicit module download (no 'go get').
 
 name: Release
 on:
@@ -15,32 +16,28 @@ permissions: write-all
 jobs:
   build-linux:
     runs-on: ubuntu-22.04
-
     steps:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: stable
+          cache: true
+          cache-dependency-path: |
+            go.sum
+            **/go.sum
 
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+        uses: actions/checkout@v4
 
       - name: Install Linux dependencies
         run: |
           sudo apt update
           sudo apt install -y pkg-config libsdl2-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglx-dev libgl1-mesa-dev libxxf86vm-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
 
-      - name: Install Go dependencies
-        run: go get -v
+      - name: Download Go modules
+        run: |
+          go mod tidy
+          go mod download
 
       - name: Build GUI
         run: CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -tags "static gui" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl-x11
@@ -48,9 +45,8 @@ jobs:
       - name: Build CLI
         run: CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -tags "cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli-linux
 
-      - name: Update executable
-        run: |
-          chmod +x Equilotl*
+      - name: Make executables
+        run: chmod +x Equilotl*
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -60,47 +56,33 @@ jobs:
             Equilotl-x11
             EquilotlCli-linux
 
-
   build-mac:
     runs-on: macos-latest
-
     steps:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
-
-      - id: go-cache-paths
-        run: |
-          echo "go_build=$(go env GOCACHE)" >> $GITHUB_ENV
-          echo "go_mod=$(go env GOMODCACHE)" >> $GITHUB_ENV
+          go-version: stable
+          cache: true
+          cache-dependency-path: |
+            go.sum
+            **/go.sum
 
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/Library/Caches/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: brew install pkg-config sdl2
 
-      - name: Install Go dependencies
-        run: go get -v
+      - name: Download Go modules
+        run: |
+          go mod tidy
+          go mod download
 
       - name: Build GUI
         run: CGO_CFLAGS="-mmacosx-version-min=10.15" CGO_LDFLAGS="-mmacosx-version-min=10.15" CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -tags "static gui" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl
 
-      - name: Update executable
-        run: |
-          chmod +x Equilotl*
-
-      - name: Generate MacOS GUI bundle
+      - name: Bundle app
         run: |
           mkdir -p Equilotl.app/Contents/MacOS
           mkdir -p Equilotl.app/Contents/Resources
@@ -116,60 +98,64 @@ jobs:
           path: |
             Equilotl.MacOS.zip
 
-
   build-windows:
     runs-on: windows-latest
-
     steps:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: stable
+          cache: true
+          cache-dependency-path: |
+            go.sum
+            **/go.sum
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~\AppData\Local\go-build
-            ~\go\pkg\mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
-      - name: Setup MSYS2
+      - name: Setup MSYS2 (for MinGW toolchain & SDL2)
         uses: msys2/setup-msys2@v2
+        with:
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-SDL2
 
-      - name: Install Windows dependencies
-        shell: msys2 {0}
+      - name: Verify toolchain
+        shell: pwsh
         run: |
-          pacman -S --noconfirm git mingw-w64-x86_64-gcc mingw-w64-x86_64-SDL2 mingw-w64-x86_64-go
-          export GOROOT=/mingw64/lib/go
-          export GOPATH=/mingw64
+          g++ --version
+          go env
 
-      - name: Install Go dependencies
-        shell: msys2 {0}
+      - name: Download Go modules
         run: |
-          export GOROOT=/mingw64/lib/go
-          export GOPATH=/mingw64
-          go get -v
-          go install github.com/tc-hib/go-winres@latest
+          go mod tidy
+          go mod download
 
-      - name: Build GUI
-        shell: msys2 {0}
+      - name: Install Windows resource tool
+        run: go install github.com/tc-hib/go-winres@latest
+
+      - name: Build GUI (no console window)
+        shell: pwsh
+        env:
+          CC: x86_64-w64-mingw32-gcc
+          CXX: x86_64-w64-mingw32-g++
         run: |
-          export GOROOT=/mingw64/lib/go
-          export GOPATH=/mingw64
           go-winres make --product-version "git-tag"
-          CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -tags "static gui" -ldflags "-s -w -H=windowsgui -extldflags=-static -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o Equilotl.exe
+          CGO_ENABLED=1 GOOS=windows GOARCH=amd64 `
+            go build -v -tags "static gui" `
+            -ldflags "-s -w -H=windowsgui -extldflags=-static -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" `
+            -o Equilotl.exe
 
       - name: Build CLI
-        shell: msys2 {0}
+        shell: pwsh
+        env:
+          CC: x86_64-w64-mingw32-gcc
+          CXX: x86_64-w64-mingw32-g++
         run: |
-          export GOROOT=/mingw64/lib/go
-          export GOPATH=/mingw64
-          CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -tags "cli" -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" -o EquilotlCli.exe
+          CGO_ENABLED=1 GOOS=windows GOARCH=amd64 `
+            go build -v -tags "cli" `
+            -ldflags "-s -w -X 'vencord/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencord/buildinfo.InstallerTag=${{ github.ref_name }}'" `
+            -o EquilotlCli.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -179,28 +165,26 @@ jobs:
             Equilotl.exe
             EquilotlCli.exe
 
-
   release:
     runs-on: ubuntu-latest
     needs: [build-linux, build-mac, build-windows]
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: "Download Linux Artifacts"
+      - name: Download Linux artifacts
         uses: actions/download-artifact@v4
         with:
           name: Equilotl-linux
           path: linux
 
-      - name: "Download MacOS Artifacts"
+      - name: Download macOS artifacts
         uses: actions/download-artifact@v4
         with:
           name: Equilotl-macos
           path: macos
 
-      - name: "Download Windows Artifacts"
+      - name: Download Windows artifacts
         uses: actions/download-artifact@v4
         with:
           name: Equilotl-windows
@@ -221,4 +205,5 @@ jobs:
             linux/Equilotl-x11
             linux/EquilotlCli-linux
             macos/Equilotl.MacOS.zip
-            windows/Equilotl*.exe
+            windows/Equilotl.exe
+            windows/EquilotlCli.exe
