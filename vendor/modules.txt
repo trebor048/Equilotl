@@ -1,0 +1,178 @@
+# github.com/AllenDang/cimgui-go v1.3.2-0.20250409185506-6b2ff1aa26b5
+## explicit; go 1.24.0
+github.com/AllenDang/cimgui-go
+github.com/AllenDang/cimgui-go/ImGuiColorTextEdit
+github.com/AllenDang/cimgui-go/backend
+github.com/AllenDang/cimgui-go/backend/glfwbackend
+github.com/AllenDang/cimgui-go/cwrappers
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/build
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/example/grep
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/example/snippets
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/example/timer
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/include/boost
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/performance
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/performance/config
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/src
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/c_compiler_checks
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/captures
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/collate_info
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/concepts
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/config_info
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/de_fuzz
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/named_subexpressions
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/object_cache
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/pathology
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/regress
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/static_mutex
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/test/unicode
+github.com/AllenDang/cimgui-go/cwrappers/ImGuiColorTextEdit/vendor1/regex/tools/generate
+github.com/AllenDang/cimgui-go/cwrappers/ImGuizmo
+github.com/AllenDang/cimgui-go/cwrappers/ImGuizmo/example
+github.com/AllenDang/cimgui-go/cwrappers/ImGuizmo/vcpkg-example
+github.com/AllenDang/cimgui-go/cwrappers/imgui
+github.com/AllenDang/cimgui-go/cwrappers/imgui/backends
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_allegro5
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_android_opengl3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_glfw_opengl2
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_glfw_opengl3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_glfw_vulkan
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_glfw_wgpu
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_glut_opengl2
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_null
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl2_directx11
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl2_opengl2
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl2_opengl3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl2_sdlrenderer2
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl2_vulkan
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl3_opengl3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl3_sdlgpu3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl3_sdlrenderer3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_sdl3_vulkan
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_win32_directx10
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_win32_directx11
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_win32_directx12
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_win32_directx9
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_win32_opengl3
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/example_win32_vulkan
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/libs/emscripten
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/libs/glfw/include/GLFW
+github.com/AllenDang/cimgui-go/cwrappers/imgui/examples/libs/usynergy
+github.com/AllenDang/cimgui-go/cwrappers/imgui/misc/cpp
+github.com/AllenDang/cimgui-go/cwrappers/imgui/misc/fonts
+github.com/AllenDang/cimgui-go/cwrappers/imgui/misc/freetype
+github.com/AllenDang/cimgui-go/cwrappers/imgui/misc/single_file
+github.com/AllenDang/cimgui-go/cwrappers/imgui_markdown
+github.com/AllenDang/cimgui-go/cwrappers/imnodes
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/example
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/b64
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/cgns
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/chartdir
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/cityhash
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/clapack
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/freeimage
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/gettimeofday
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/graphicsmagick
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/gts
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/igraph
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/libaiff
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/libmspack
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/libu2f-server
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/libuuid
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/modp-base64
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/openblas
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/ports/ragel
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/scripts/test_ports/vcpkg-ci-ankurvdev-embedresource/project
+github.com/AllenDang/cimgui-go/cwrappers/imnodes/vcpkg/scripts/test_ports/vcpkg-ci-soci/project
+github.com/AllenDang/cimgui-go/cwrappers/implot
+github.com/AllenDang/cimgui-go/imgui
+github.com/AllenDang/cimgui-go/imguizmo
+github.com/AllenDang/cimgui-go/immarkdown
+github.com/AllenDang/cimgui-go/imnodes
+github.com/AllenDang/cimgui-go/implot
+github.com/AllenDang/cimgui-go/internal
+github.com/AllenDang/cimgui-go/lib/linux/x64
+github.com/AllenDang/cimgui-go/lib/macos/arm64
+github.com/AllenDang/cimgui-go/lib/macos/x64
+github.com/AllenDang/cimgui-go/lib/windows/x64
+github.com/AllenDang/cimgui-go/thirdparty/SDL/include
+github.com/AllenDang/cimgui-go/thirdparty/glfw/include/GLFW
+github.com/AllenDang/cimgui-go/utils
+github.com/AllenDang/cimgui-go/utils/vectors
+# github.com/AllenDang/giu v0.14.1
+## explicit; go 1.24.0
+github.com/AllenDang/giu
+# github.com/AllenDang/go-findfont v0.0.0-20200702051237-9f180485aeb8
+## explicit
+github.com/AllenDang/go-findfont
+# github.com/AllenDang/imgui-go v1.12.1-0.20221124025851-59b862ca5a0c
+## explicit; go 1.16
+github.com/AllenDang/imgui-go
+# github.com/ProtonMail/go-appdir v1.1.0
+## explicit
+github.com/ProtonMail/go-appdir
+# github.com/chzyer/readline v1.5.1
+## explicit; go 1.15
+github.com/chzyer/readline
+# github.com/faiface/mainthread v0.0.0-20171120011319-8b78f0a41ae3
+## explicit
+github.com/faiface/mainthread
+# github.com/fatih/color v1.18.0
+## explicit; go 1.17
+github.com/fatih/color
+# github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71
+## explicit; go 1.12
+github.com/go-gl/gl/v3.2-core/gl
+github.com/go-gl/gl/v3.2-core/gl/KHR
+# github.com/go-gl/glfw/v3.3/glfw v0.0.0-20250301202403-da16c1255728
+## explicit; go 1.19
+github.com/go-gl/glfw/v3.3/glfw
+github.com/go-gl/glfw/v3.3/glfw/glfw/deps
+github.com/go-gl/glfw/v3.3/glfw/glfw/deps/glad
+github.com/go-gl/glfw/v3.3/glfw/glfw/deps/mingw
+github.com/go-gl/glfw/v3.3/glfw/glfw/deps/vs2008
+github.com/go-gl/glfw/v3.3/glfw/glfw/include/GLFW
+github.com/go-gl/glfw/v3.3/glfw/glfw/src
+# github.com/gucio321/glm-go v0.0.0-20241029220517-e1b5a3e011c8
+## explicit; go 1.23.2
+github.com/gucio321/glm-go
+# github.com/manifoldco/promptui v0.9.0
+## explicit; go 1.12
+github.com/manifoldco/promptui
+github.com/manifoldco/promptui/list
+github.com/manifoldco/promptui/screenbuf
+# github.com/mattn/go-colorable v0.1.14
+## explicit; go 1.18
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.20
+## explicit; go 1.15
+github.com/mattn/go-isatty
+# github.com/mazznoer/csscolorparser v0.1.6
+## explicit; go 1.12
+github.com/mazznoer/csscolorparser
+# github.com/napsy/go-css v1.0.0
+## explicit; go 1.19
+github.com/napsy/go-css
+# github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
+## explicit; go 1.14
+github.com/pkg/browser
+# github.com/sahilm/fuzzy v0.1.1
+## explicit
+github.com/sahilm/fuzzy
+# golang.design/x/hotkey v0.4.1
+## explicit; go 1.17
+golang.design/x/hotkey/mainthread
+# golang.design/x/mainthread v0.3.0
+## explicit; go 1.16
+golang.design/x/mainthread
+# golang.org/x/image v0.29.0
+## explicit; go 1.23.0
+golang.org/x/image/colornames
+# golang.org/x/sys v0.34.0
+## explicit; go 1.23.0
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# gopkg.in/eapache/queue.v1 v1.1.0
+## explicit
+gopkg.in/eapache/queue.v1

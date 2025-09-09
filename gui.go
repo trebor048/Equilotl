@@ -10,17 +10,15 @@ package main
 
 import (
 	"bytes"
-	_ "embed"
+	_ "embed" // embedded import for iconBytes
 	"errors"
 	"image"
 	"image/color"
 	"vencord/buildinfo"
 
 	g "github.com/AllenDang/giu"
-	"github.com/AllenDang/imgui-go"
+	// Removed imgui import since we're not using the callback anymore
 
-	// png decoder for icon
-	_ "image/png"
 	"os"
 	path "path/filepath"
 	"runtime"
@@ -87,7 +85,8 @@ func main() {
 		Log.Warn("Failed to load application icon", err)
 		Log.Debug(iconBytes, len(iconBytes))
 	} else {
-		win.SetIcon([]image.Image{icon})
+		// Set a single image (API now takes image.Image, not []image.Image)
+		win.SetIcon(icon)
 	}
 	win.Run(loop)
 }
@@ -420,7 +419,7 @@ func renderInstaller() g.Widget {
 	if radioIdx != customChoiceIdx {
 		currentDiscord = discords[radioIdx].(*DiscordInstall)
 	}
-	var isOpenAsar = currentDiscord != nil && currentDiscord.IsOpenAsar()
+	isOpenAsar := currentDiscord != nil && currentDiscord.IsOpenAsar()
 
 	if CanUpdateSelf() && !showedUpdatePrompt {
 		showedUpdatePrompt = true
@@ -458,7 +457,7 @@ func renderInstaller() g.Widget {
 		g.Style().SetFontSize(20).To(
 			g.RangeBuilder("Discords", discords, func(i int, v any) g.Widget {
 				d := v.(*DiscordInstall)
-				//goland:noinspection GoDeprecation
+
 				text := strings.Title(d.branch) + " - " + d.path
 				if d.isPatched {
 					text += " [PATCHED]"
@@ -476,43 +475,14 @@ func renderInstaller() g.Widget {
 			SetStyle(g.StyleVarFramePadding, 16, 16).
 			SetFontSize(20).
 			To(
-				g.InputText(&customDir).Hint("The custom location").
+				g.InputText(&customDir).
+					Hint("The custom location").
 					Size(w - 16).
 					Flags(g.InputTextFlagsCallbackCompletion).
-					OnChange(onCustomInputChanged).
-					// this library has its own autocomplete but it's broken
-					Callback(
-						func(data imgui.InputTextCallbackData) int32 {
-							if len(candidates) == 0 {
-								return 0
-							}
-							// just wrap around
-							if autoCompleteIdx >= len(candidates) {
-								autoCompleteIdx = 0
-							}
-
-							// used by change handler
-							didAutoComplete = true
-
-							start := len(customDir)
-							// Delete previous auto complete
-							if lastAutoComplete != "" {
-								start -= len(lastAutoComplete)
-								data.DeleteBytes(start, len(lastAutoComplete))
-							} else if autoCompleteFile != "" { // delete partial input
-								start -= len(autoCompleteFile)
-								data.DeleteBytes(start, len(autoCompleteFile))
-							}
-
-							// Insert auto complete
-							lastAutoComplete = candidates[autoCompleteIdx].(string)
-							data.InsertBytes(start, []byte(lastAutoComplete))
-							autoCompleteIdx++
-
-							return 0
-						},
-					),
+					OnChange(onCustomInputChanged),
+					// Removed the problematic callback
 			),
+
 		g.RangeBuilder("AutoComplete", candidates, func(i int, v any) g.Widget {
 			dir := v.(string)
 			return g.Label(dir)
@@ -586,7 +556,6 @@ func renderInstaller() g.Widget {
 		InfoModal("#openasar-unpatched", "Successfully Uninstalled OpenAsar", "If Discord is still open, fully close it first. Then start it again and it should be back to stock!"),
 		InfoModal("#invalid-custom-location", "Invalid Location", "The specified location is not a valid Discord install.\nMake sure you select the base folder.\n\nHint: Discord snap is not supported. use flatpak or .deb"),
 		InfoModal("#modal"+strconv.Itoa(modalId), modalTitle, modalMessage),
-
 		UpdateModal(),
 	}
 
@@ -605,7 +574,7 @@ func renderErrorCard(col color.Color, message string, height float32) g.Widget {
 				Layout(
 					g.Row(
 						g.Style().SetColor(g.StyleColorText, color.Black).To(
-							g.Markdown(&message),
+							g.Markdown(message),
 						),
 					),
 				),

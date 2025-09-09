@@ -90,7 +90,7 @@ func FindDiscords() []any {
 func PreparePatch(di *DiscordInstall) {
 	killLock.Lock()
 	defer killLock.Unlock()
-	
+
 	name := windowsNames[di.branch]
 	Log.Debug("Trying to kill", name)
 	pid := findProcessIdByName(name + ".exe")
