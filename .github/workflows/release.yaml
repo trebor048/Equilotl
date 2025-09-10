@@ -21,6 +21,12 @@ jobs:
         go-version: '1.21'
         go-version-file: 'go.mod'
 
+    - name: Sync vendor directory
+      run: go mod vendor
+      
+    - name: Verify vendoring consistency
+      run: go mod verify
+
     - name: Install dependencies
       run: go mod download
 
@@ -33,7 +39,7 @@ jobs:
         $gitHash = $(git rev-parse --short HEAD)
         $gitTag = $(git describe --tags --abbrev=0 2> $null)
         if (-not $gitTag) { $gitTag = "dev" }
-        go build -v -tags "static gui" `
+        go build -mod=readonly -v -tags "static gui" `
           -ldflags "-s -w -H=windowsgui -extldflags=-static -X 'vencord/buildinfo.InstallerGitHash=$gitHash' -X 'vencord/buildinfo.InstallerTag=$gitTag'" `
           -o Equilotl.exe
 
